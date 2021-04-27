@@ -3,8 +3,7 @@ public with sharing class ProductHelper {
 
     public static void createProductDisplayURL(List<Product2> productList) {
         for (Product2 product : productList) {
-            String productName = product.Name;
-            product.DisplayUrl = 'www.empresa.com.br/produtos/' + productName.replace(' ', '-');
+            product.DisplayUrl = System.Label.BaseURL + product.Name.replace(' ', '-');
         }
     }
 
@@ -19,20 +18,15 @@ public with sharing class ProductHelper {
 
         List<PricebookEntry> entryList = new List<PricebookEntry>();
 
-        Map<String, Integer> basePrice = new Map<String, Integer>();
-
-        basePrice.put('Higiene', 40);
-        basePrice.put('Eletrodomestico', 700);
-        basePrice.put('Alimenticio', 10);
-        basePrice.put('Ferramenta', 150);
-        basePrice.put('MaterialConstrucao', 400);
-        basePrice.put('QualquerOutraFamilia', 5);
+        Map<String, BasePrice__c> basePriceMap = BasePrice__c.getAll();
 
         for (Product2 product: productList) {
-            Integer unitPrice = 0;
+            Decimal unitPrice = 0;
 
-            if (basePrice.containsKey(product.Family)) {
-                unitPrice = basePrice.get(product.Family);
+            if (basePriceMap.containsKey(product.Family)) {
+                unitPrice = basePriceMap.get(product.Family).Value__c;
+            } else {
+              unitPrice = 5;  
             }
 
             PricebookEntry entry = new PricebookEntry(
