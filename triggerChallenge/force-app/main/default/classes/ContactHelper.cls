@@ -12,6 +12,7 @@ public with sharing class ContactHelper {
             SELECT Id, Name
             FROM Account
             WHERE Id IN: accountIds
+            AND NecessitaAtualizarContato__c != true
         ];
 
         for (Account account : relatedAccounts) {
