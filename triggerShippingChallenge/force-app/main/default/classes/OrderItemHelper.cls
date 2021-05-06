@@ -206,9 +206,9 @@ public with sharing class OrderItemHelper {
     }
 
     public static Decimal getBestFreightPrice(Freight__c freight, Decimal totalWeight, Decimal totalVolume, Decimal totalQuantity) {
-        Decimal freightWeightPrice = totalWeight * freight.WeightFreight__c;
-        Decimal freightVolumePrice = totalVolume * freight.VolumeFreight__c;
-        Decimal freightQuantityPrice = totalQuantity * freight.BaseFreight__c;
+        Decimal freightWeightPrice = totalWeight + freight.WeightFreight__c;
+        Decimal freightVolumePrice = totalVolume + freight.VolumeFreight__c;
+        Decimal freightQuantityPrice = totalQuantity + freight.BaseFreight__c;
         Decimal freightPrice = freightWeightPrice;
 
         if (freightPrice < freightVolumePrice) {
